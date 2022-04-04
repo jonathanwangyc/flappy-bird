@@ -1,10 +1,8 @@
-What background knowledge do you have on this kind of project, and why do you want to do this project? (Put another way, in what way will you be motivated to see this project to completion?)
-
 ## Project Goal
 For the final project, I would like to try implement my version of the famous game, flappy bird. I've never made a game 
 using any coding language from scratch on my own, and I feel like this is the best opportunity for it. First, I just 
-learn how cinder works from previous mp assignments, and it allows me to create ui for my game. Next, I feel like I'm 
-equipped with all the knowledge needed to finish the project, and being able to solve the challenges I might face 
+learned how cinder works from previous mp assignments, and it allows me to create the UI for my game. Next, I feel like 
+I'm equipped with all the knowledge needed to finish the project, and being able to solve the challenges I might face 
 during the implementation. My biggest motivation for this project is to create the game with my own design and logic.
 
 ## Predicted Timeline
