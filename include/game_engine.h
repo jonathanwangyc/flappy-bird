@@ -11,21 +11,28 @@ public:
   void Display() const;
   void AdvanceOneFrame();
 
+  int GetScore();
   int GetGameStatus();
   void SetGameStatus(int status);
+
   void MakeBirdFly();
+  void ClearObstacle();
+  void ResetScore();
+  void ResetBirdPosition();
 
   const int kWindowSizeX;
   const int kWindowSizeY;
 private:
   int game_status_;
-  const int kObstacleFrequency = 200;
+  const int kObstacleFrequency = 180;
   int frame_count_;
   Bird bird_;
   std::vector<Obstacle> obstacles_;
 
-  bool HasCollide();
+  int score_;
+
   bool IsOutOfBound(Obstacle obstacle);
+  void UpdateScore();
 };
 
 }  // namespace flappybird

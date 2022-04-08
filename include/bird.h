@@ -3,6 +3,7 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
+#include "obstacle.h"
 
 namespace flappybird {
 
@@ -12,6 +13,12 @@ public:
   void Draw() const;
   void AdvanceOneFrame();
   void Fly();
+
+  bool HasFall() const;
+  bool HasCollide(std::vector<Obstacle> obstacles) const;
+
+  void ResetPosition();
+  double GetBirdXPosition();
 
   const int kWindowSizeX;
   const int kWindowSizeY;

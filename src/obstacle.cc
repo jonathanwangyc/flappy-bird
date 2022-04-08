@@ -12,6 +12,7 @@ Obstacle::Obstacle(int window_size_x, int window_size_y) : kWindowSizeX(window_s
   obstacle_bottom_lid_ = ci::gl::Texture2d::create(loadImage(ci::app::loadAsset("obstacle_bottom_lid.png")));
   obstacle_bottom_pipe_ = ci::gl::Texture2d::create(loadImage(ci::app::loadAsset("obstacle_bottom_pipe.png")));
 
+  has_passed = false;
   InitializeObstaclePosition();
 }
 
@@ -70,6 +71,22 @@ void Obstacle::InitializeObstaclePosition() {
 
 double Obstacle::GetObstacleXPosition() {
   return top_lid_bottom_right.x;
+}
+
+ci::Rectf Obstacle::GetTopObstacleHitBox() const {
+  return ci::Rectf(vec2(top_lid_top_left_.x, 0), top_lid_bottom_right);
+}
+
+ci::Rectf Obstacle::GetBottomObstacleHitBox() const {
+  return ci::Rectf(bottom_lid_top_left_, vec2(bottom_lid_bottom_right.x, kWindowSizeY));;
+}
+
+bool Obstacle::HasPassed() {
+  return has_passed;
+}
+
+void Obstacle::UpdateHasPassed() {
+  has_passed = !has_passed;
 }
 
 }  // namespace flappybird

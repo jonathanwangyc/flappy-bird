@@ -13,11 +13,17 @@ public:
   void AdvanceOneFrame();
 
   double GetObstacleXPosition();
+  ci::Rectf GetTopObstacleHitBox() const;
+  ci::Rectf GetBottomObstacleHitBox() const;
+
+  bool HasPassed();
+  void UpdateHasPassed();
 
 private:
   int kWindowSizeX;
   int kWindowSizeY;
 
+  bool has_passed;
   double moving_speed_ = 2.5;
 
   cinder::vec2 lid_dimension_ = cinder::vec2(244 / 2, 113 / 2);
