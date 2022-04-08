@@ -33,8 +33,8 @@ public:
    */
   void keyDown(ci::app::KeyEvent event) override;
 
-  const int kWindowSizeX = 1550; /// The pop-up window width
-  const int kWindowSizeY = 925; /// The pop-up window height
+  const int kWindowSizeX = 1250; /// The pop-up window width
+  const int kWindowSizeY = 725; /// The pop-up window height
 
   ci::gl::Texture2dRef background;
   const ci::gl::Texture2dRef kFlappyBird;
