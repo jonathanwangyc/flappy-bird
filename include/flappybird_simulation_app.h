@@ -5,19 +5,17 @@
 #include "cinder/gl/gl.h"
 #include "game_engine.h"
 
-using cinder::vec2;
-
 namespace flappybird {
 
 /**
  * An app for visualizing the behavior of an ideal gas.
  */
-class FlappybirdApp : public ci::app::App {
+class FlappyBirdApp : public ci::app::App {
 public:
   /**
    * Constructor that sets up the window size for the pop-up window and initializes container_.
    */
-  FlappybirdApp();
+  FlappyBirdApp();
 
   /**
    * Draw the particles onto the pop-up window.
@@ -35,13 +33,15 @@ public:
    */
   void keyDown(ci::app::KeyEvent event) override;
 
-  const int kWindowSizeX = 1250; /// The pop-up window width
-  const int kWindowSizeY = 775; /// The pop-up window height
-  const vec2 kContainerTopLeft = vec2(100, 50); /// the top left coordinate of the container
-  const vec2 kContainerBottomRight = vec2(700, 400); /// the bottom right coordinate of the container
+  const int kWindowSizeX = 1550; /// The pop-up window width
+  const int kWindowSizeY = 925; /// The pop-up window height
+
+  ci::gl::Texture2dRef background;
+  const ci::gl::Texture2dRef kFlappyBird;
 
 private:
-  // GasContainer container_; /// A class that stores the particles.
+  GameEngine game_engine_;
+  // container_; /// A class that stores the particles.
 };
 
 }  // namespace flappybird

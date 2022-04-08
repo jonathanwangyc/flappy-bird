@@ -54,7 +54,9 @@ list(APPEND SOURCE_FILES src/flappybird_simulation_app.cc
         src/bird.cc
         src/obstacle.cc)
 
-list(APPEND TEST_FILES tests/test_game_engine.cc)
+list(APPEND TEST_FILES tests/test_game_engine.cc
+        tests/test_bird.cc
+        tests/test_obstacle.cc)
 
 ci_make_app(
         APP_NAME        flappybird-simulation

@@ -4,6 +4,8 @@ namespace flappybird {
 
 class Obstacle {
 public:
+  Obstacle();
+  void Draw() const;
 
 };
 

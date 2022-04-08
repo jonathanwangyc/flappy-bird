@@ -1,22 +1,26 @@
 #include "flappybird_simulation_app.h"
 
+using cinder::vec2;
+
 namespace flappybird {
 
-FlappybirdApp::FlappybirdApp() {
+FlappyBirdApp::FlappyBirdApp() : kFlappyBird(ci::gl::Texture2d::create(loadImage(loadAsset("flappy_bird.png")))) {
   ci::app::setWindowSize(kWindowSizeX, kWindowSizeY);
+  background = ci::gl::Texture2d::create(loadImage(loadAsset("background.png")));
+
+  game_engine_ = GameEngine();
 }
 
-void FlappybirdApp::draw() {
-  ci::Color background_color("white");
-  ci::gl::clear(background_color);
+void FlappyBirdApp::draw() {
+  ci::gl::clear();
+  ci::gl::draw(background, ci::Rectf(vec2(0, 0), vec2(kWindowSizeX,kWindowSizeY)));
+
 
 //  ci::Url kBirdImagePath = ci::Url("https://www.pngkey.com/maxpic/u2t4u2e6i1w7w7e6/");
 //  ci::gl::Texture2dRef image = ci::gl::Texture2d::create(loadImage(loadUrl(kBirdImagePath)));
-  ci::gl::Texture2dRef images = ci::gl::Texture2d::create(ci::loadImage(loadAsset("obstacle_bottom_body.png")));
+  ci::gl::Texture2dRef images = ci::gl::Texture2d::create(loadImage(loadAsset("obstacle_bottom_body.png")));
   ci::gl::Texture2dRef lid = ci::gl::Texture2d::create(ci::loadImage(loadAsset("obstacle_bottom_lid.png")));
-//  auto img = ci::loadImage( loadAsset("../../../../../../assets/obstacle.png") );
-//  auto mTex = ci::gl::Texture2d::create( img );
-//
+
   ci::Rectf limit1 = ci::Rectf(vec2(100, 200), vec2(220,360));
   ci::Rectf lid1 = ci::Rectf(vec2(80, 150), vec2(240,200));
   ci::Rectf limit2 = ci::Rectf(vec2(300, 200), vec2(420,480));
@@ -30,15 +34,29 @@ void FlappybirdApp::draw() {
   ci::gl::draw(lid, lid2);
   ci::gl::draw(images, limit3);
   ci::gl::draw(lid, lid3);
-  // container_.Display();
+
+  game_engine_.Display();
 }
 
-void FlappybirdApp::update() {
-  // container_.AdvanceOneFrame();
+void FlappyBirdApp::update() {
+  game_engine_.AdvanceOneFrame();
 }
 
-void FlappybirdApp::keyDown(ci::app::KeyEvent event) {
-
+void FlappyBirdApp::keyDown(ci::app::KeyEvent event) {
+  switch (event.getCode()) {
+    case ci::app::KeyEvent::KEY_SPACE:
+      if (game_engine_.GetGameStatus() == 0) {
+        // start the game
+      } else if (game_engine_.GetGameStatus() == 1) {
+        // flappy bird goes jummppppppp
+      }
+      break;
+    case ci::app::KeyEvent::KEY_RETURN:
+      if (game_engine_.GetGameStatus() == 2) {
+        // go to starting screen
+      }
+      break;
+  }
 }
 
 }  // namespace flappybird
