@@ -7,6 +7,7 @@ GameEngine::GameEngine(int window_size_x, int window_size_y) :
     bird_(Bird(kWindowSizeX, kWindowSizeY)) {
   game_status_ = 0;
   frame_count_ = 0;
+  highest_score_ = 0;
   score_ = 0;
 
   obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY));
@@ -17,12 +18,49 @@ void GameEngine::Display() const {
     obstacle.Draw();
   }
   bird_.Draw();
-  // TODO: Implement starting/ending screen
+  // TODO: improve bird falling mechanics. (potentially falling animation), different game mode
 
-  // make sure the score only show during and after game
-  ci::gl::drawStringCentered(
-      "Score: " + std::to_string(score_),
-      glm::vec2(kWindowSizeX / 2, 30), ci::Color("blue"), ci::Font("Arial Black", 32));
+  switch (game_status_) {
+    case 0:
+      DisplayScore();
+      DisplayStartingScreen();
+      break;
+    case 1:
+      DisplayScore();
+      break;
+    case 2:
+      DisplayEndingScreen();
+      break;
+  }
+}
+
+void GameEngine::DisplayScore() const {
+  ci::gl::drawStringCentered(std::to_string(score_),
+                             glm::vec2(kWindowSizeX / 2, 0.12 * kWindowSizeY), ci::Color("white"),
+                             ci::Font("Arial Black", 60));
+}
+
+void GameEngine::DisplayStartingScreen() const {
+  ci::gl::drawStringCentered("Press \"Space\" to start...",
+                             glm::vec2(kWindowSizeX / 2, 0.25 * kWindowSizeY), ci::Color("white"),
+                             ci::Font("Georgia", 32));
+}
+
+void GameEngine::DisplayEndingScreen() const {
+  ci::gl::drawSolidRoundedRect(ci::Rectf(glm::vec2(kWindowSizeX / 2 - 125, 0.15 * kWindowSizeY),
+                                         glm::vec2(kWindowSizeX / 2 + 125, 0.42 * kWindowSizeY)), 15);
+  ci::gl::drawStringCentered("Score: " + std::to_string(score_),
+                             glm::vec2(kWindowSizeX / 2, 0.18 * kWindowSizeY), ci::Color("black"),
+                             ci::Font("Arial Black", 32));
+  ci::gl::drawStringCentered("Best: " + std::to_string(highest_score_),
+                             glm::vec2(kWindowSizeX / 2, 0.24 * kWindowSizeY), ci::Color("black"),
+                             ci::Font("Arial Black", 32));
+  ci::gl::drawStringCentered("Press \"Return\"",
+                             glm::vec2(kWindowSizeX / 2, 0.32 * kWindowSizeY), ci::Color("black"),
+                             ci::Font("Georgia", 28));
+  ci::gl::drawStringCentered("to try again...",
+                             glm::vec2(kWindowSizeX / 2, 0.37 * kWindowSizeY), ci::Color("black"),
+                             ci::Font("Georgia", 28));
 }
 
 void GameEngine::AdvanceOneFrame() {
@@ -32,6 +70,9 @@ void GameEngine::AdvanceOneFrame() {
 
   if (bird_.HasFall() || bird_.HasCollide(obstacles_)) {
     this->SetGameStatus(2);
+    if (score_ > highest_score_) {
+      highest_score_ = score_;
+    }
     std::cout << "Game Stopped!" << std::endl;
   } else {
     for (Obstacle& obstacle : obstacles_) {
@@ -89,6 +130,10 @@ void GameEngine::ResetScore() {
 
 void GameEngine::ResetBirdPosition() {
   bird_.ResetPosition();
+}
+
+void GameEngine::ResetGravityMultiplier() {
+  bird_.SetGravityMultiplier(1.0);
 }
 
 }  // namespace flappybird

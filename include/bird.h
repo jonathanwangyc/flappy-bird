@@ -20,6 +20,8 @@ public:
   void ResetPosition();
   double GetBirdXPosition();
 
+  void SetGravityMultiplier(double multiplier);
+
   const int kWindowSizeX;
   const int kWindowSizeY;
 
@@ -34,6 +36,8 @@ private:
 
   cinder::vec2 bird_top_left_;
   cinder::vec2 bird_bottom_right;
+
+  double gravity_multiplier_ = 1.0;
 };
 
 }  // namespace flappybird

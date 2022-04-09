@@ -6,6 +6,7 @@ namespace flappybird {
 
 Bird::Bird(int window_size_x, int window_size_y) : kWindowSizeX(window_size_x), kWindowSizeY(window_size_y) {
   flappy_bird_ = ci::gl::Texture2d::create(loadImage(ci::app::loadAsset("flappy_bird.png")));
+  gravity_multiplier_ = 1.0;
 
   bird_top_left_ = vec2(kWindowSizeX/2 - kBirdWidth/2, kWindowSizeY/2 - kBirdHeight/2);
   bird_bottom_right = vec2(kWindowSizeX/2 + kBirdWidth/2, kWindowSizeY/2 + kBirdHeight/2);
@@ -16,8 +17,9 @@ void Bird::Draw() const {
 }
 
 void Bird::AdvanceOneFrame() {
-  bird_top_left_ += vec2(0, kGravity);
-  bird_bottom_right += vec2(0, kGravity);
+  gravity_multiplier_ += 0.03;
+  bird_top_left_ += vec2(0, gravity_multiplier_ * kGravity);
+  bird_bottom_right += vec2(0, gravity_multiplier_ * kGravity);
 }
 
 void Bird::Fly() {
@@ -49,6 +51,9 @@ double Bird::GetBirdXPosition() {
   return bird_top_left_.x;
 }
 
+void Bird::SetGravityMultiplier(double multiplier) {
+  gravity_multiplier_ = multiplier;
+}
 
 }  // namespace flappybird
 

@@ -22,7 +22,6 @@ void FlappyBirdApp::update() {
   if (game_engine_.GetGameStatus() == 1) {
     game_engine_.AdvanceOneFrame();
   }
-
 }
 
 void FlappyBirdApp::keyDown(ci::app::KeyEvent event) {
@@ -32,16 +31,18 @@ void FlappyBirdApp::keyDown(ci::app::KeyEvent event) {
         // start the game
         game_engine_.SetGameStatus(1);
         game_engine_.ResetBirdPosition();
+        game_engine_.MakeBirdFly();
       } else if (game_engine_.GetGameStatus() == 1) {
         // flappy bird goes jummppppppp
         game_engine_.MakeBirdFly();
+        game_engine_.ResetGravityMultiplier();
       }
       break;
     case ci::app::KeyEvent::KEY_RETURN:
       if (game_engine_.GetGameStatus() == 2) {
         // go to starting screen
         game_engine_.SetGameStatus(0);
-        std::cout << "Game status 1" << std::endl;
+        std::cout << "Game status 0" << std::endl;
         game_engine_.ClearObstacle();
         game_engine_.ResetScore();
       }

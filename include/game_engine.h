@@ -9,6 +9,9 @@ class GameEngine {
 public:
   GameEngine(int window_size_x, int window_size_y);
   void Display() const;
+  void DisplayScore() const;
+  void DisplayStartingScreen() const;
+  void DisplayEndingScreen() const;
   void AdvanceOneFrame();
 
   int GetScore();
@@ -19,9 +22,11 @@ public:
   void ClearObstacle();
   void ResetScore();
   void ResetBirdPosition();
+  void ResetGravityMultiplier();
 
   const int kWindowSizeX;
   const int kWindowSizeY;
+
 private:
   int game_status_;
   const int kObstacleFrequency = 180;
@@ -29,6 +34,7 @@ private:
   Bird bird_;
   std::vector<Obstacle> obstacles_;
 
+  int highest_score_;
   int score_;
 
   bool IsOutOfBound(Obstacle obstacle);
