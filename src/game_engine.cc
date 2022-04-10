@@ -10,7 +10,9 @@ GameEngine::GameEngine(int window_size_x, int window_size_y) :
   highest_score_ = 0;
   score_ = 0;
 
-  obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY));
+  this->SetGameModeNormal();
+
+  obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY, game_mode_));
 }
 
 void GameEngine::Display() const {
@@ -18,7 +20,7 @@ void GameEngine::Display() const {
     obstacle.Draw();
   }
   bird_.Draw();
-  // TODO: improve bird falling mechanics. (potentially falling animation), different game mode
+  // TODO: improve bird flying/falling animation, different game mode easy/normal/hard press key to change mode
 
   switch (game_status_) {
     case 0:
@@ -83,9 +85,9 @@ void GameEngine::AdvanceOneFrame() {
     if (IsOutOfBound(obstacles_[0])) {
       obstacles_.erase(obstacles_.begin());
     }
-    if (frame_count_ == kObstacleFrequency) {
-      frame_count_ %= kObstacleFrequency;
-      obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY));
+    if (frame_count_ == obstacle_frequency_) {
+      frame_count_ %= obstacle_frequency_;
+      obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY, game_mode_));
     }
 
   }
@@ -101,6 +103,44 @@ int GameEngine::GetGameStatus() {
 
 void GameEngine::SetGameStatus(int status) {
   game_status_ = status;
+}
+
+int GameEngine::GetGameMode() {
+  return game_mode_;
+}
+
+void GameEngine::SetObstacleFrequency(int frequency) {
+  obstacle_frequency_ = frequency;
+}
+
+void GameEngine::SetGameModeEasy() {
+  // TODO: displaying game mode options/ show current game mode, potentially keep track of highest score for
+  //  different game modes using vector, constructor set game mode normal/ remove original value for width/frequency/speed.
+  obstacle_frequency_ = 200;
+  game_mode_ = 1;
+
+}
+
+void GameEngine::SetGameModeNormal() {
+  obstacle_frequency_ = 180;
+  game_mode_ = 2;
+}
+
+void GameEngine::SetGameModeHard() {
+  obstacle_frequency_ = 160;
+  game_mode_ = 3;
+}
+
+void GameEngine::StartGame() {
+  this->SetGameStatus(1);
+  bird_.ResetPosition();
+  bird_.Fly();
+}
+
+void GameEngine::ResetGame() {
+  this->SetGameStatus(0);
+  obstacles_.clear();
+  score_ = 0;
 }
 
 void GameEngine::MakeBirdFly() {
@@ -135,6 +175,7 @@ void GameEngine::ResetBirdPosition() {
 void GameEngine::ResetGravityMultiplier() {
   bird_.SetGravityMultiplier(1.0);
 }
+
 
 }  // namespace flappybird
 

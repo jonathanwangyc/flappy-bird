@@ -6,13 +6,16 @@ using cinder::vec2;
 
 namespace flappybird {
 
-Obstacle::Obstacle(int window_size_x, int window_size_y) : kWindowSizeX(window_size_x), kWindowSizeY(window_size_y) {
+Obstacle::Obstacle(int window_size_x, int window_size_y, int game_mode) :
+    kWindowSizeX(window_size_x), kWindowSizeY(window_size_y) {
   obstacle_top_lid_ = ci::gl::Texture2d::create(loadImage(ci::app::loadAsset("obstacle_top_lid.png")));
   obstacle_top_pipe_ = ci::gl::Texture2d::create(loadImage(ci::app::loadAsset("obstacle_top_pipe.png")));
   obstacle_bottom_lid_ = ci::gl::Texture2d::create(loadImage(ci::app::loadAsset("obstacle_bottom_lid.png")));
   obstacle_bottom_pipe_ = ci::gl::Texture2d::create(loadImage(ci::app::loadAsset("obstacle_bottom_pipe.png")));
 
+  game_mode_ = game_mode;
   has_passed = false;
+  InitializeGameMode();
   InitializeObstaclePosition();
 }
 
@@ -22,12 +25,6 @@ void Obstacle::Draw() const {
 
   ci::gl::draw(obstacle_bottom_lid_, ci::Rectf(bottom_lid_top_left_, bottom_lid_bottom_right));
   ci::gl::draw(obstacle_bottom_pipe_, ci::Rectf(bottom_pipe_top_left_, bottom_pipe_bottom_right));
-//  std::cout << "Attempt to draw!" << std::endl;
-//  std::cout << top_lid_top_left_ << top_lid_bottom_right << std::endl;
-//  std::cout << top_pipe_top_left_ << top_pipe_bottom_right << std::endl;
-//  std::cout << bottom_lid_top_left_ << bottom_lid_bottom_right << std::endl;
-//  std::cout << bottom_pipe_top_left_ << bottom_pipe_bottom_right << std::endl;
-
 }
 
 void Obstacle::AdvanceOneFrame() {
@@ -42,6 +39,23 @@ void Obstacle::AdvanceOneFrame() {
 
   bottom_pipe_top_left_-= vec2(moving_speed_, 0);
   bottom_pipe_bottom_right-= vec2(moving_speed_, 0);
+}
+
+void Obstacle::InitializeGameMode() {
+  switch (game_mode_) {
+    case 1:
+      moving_speed_ = 2.0;
+      gap_width_ = 216 / 1.0;
+      break;
+    case 2:
+      moving_speed_ = 2.5;
+      gap_width_ = 216 / 1.2;
+      break;
+    case 3:
+      moving_speed_ = 3.0;
+      gap_width_ = 216 / 1.4;
+      break;
+  }
 }
 
 // code below is derived from:
@@ -88,5 +102,6 @@ bool Obstacle::HasPassed() {
 void Obstacle::UpdateHasPassed() {
   has_passed = !has_passed;
 }
+
 
 }  // namespace flappybird

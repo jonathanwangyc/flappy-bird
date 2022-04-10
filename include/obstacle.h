@@ -8,7 +8,7 @@ namespace flappybird {
 
 class Obstacle {
 public:
-  Obstacle(int window_size_x, int window_size_y);
+  Obstacle(int window_size_x, int window_size_y, int game_mode);
   void Draw() const;
   void AdvanceOneFrame();
 
@@ -23,10 +23,11 @@ private:
   int kWindowSizeX;
   int kWindowSizeY;
 
+  int game_mode_;
   bool has_passed;
   double moving_speed_ = 2.5;
 
-  cinder::vec2 lid_dimension_ = cinder::vec2(244 / 2, 113 / 2);
+  ci::vec2 lid_dimension_ = ci::vec2(244 / 2, 113 / 2);
   double pipe_width_ = double(244) / 3;
   double gap_width_ = 216 / 1.2;
 
@@ -35,19 +36,20 @@ private:
   ci::gl::Texture2dRef obstacle_bottom_lid_;
   ci::gl::Texture2dRef obstacle_bottom_pipe_;
 
-  cinder::vec2 top_lid_top_left_;
-  cinder::vec2 top_lid_bottom_right;
+  ci::vec2 top_lid_top_left_;
+  ci::vec2 top_lid_bottom_right;
 
-  cinder::vec2 top_pipe_top_left_;
-  cinder::vec2 top_pipe_bottom_right;
+  ci::vec2 top_pipe_top_left_;
+  ci::vec2 top_pipe_bottom_right;
 
-  cinder::vec2 bottom_lid_top_left_;
-  cinder::vec2 bottom_lid_bottom_right;
+  ci::vec2 bottom_lid_top_left_;
+  ci::vec2 bottom_lid_bottom_right;
 
-  cinder::vec2 bottom_pipe_top_left_;
-  cinder::vec2 bottom_pipe_bottom_right;
+  ci::vec2 bottom_pipe_top_left_;
+  ci::vec2 bottom_pipe_bottom_right;
 
   double GenerateRandomDouble(const double& min, const double& max);
+  void InitializeGameMode();
   void InitializeObstaclePosition();
 };
 

@@ -28,23 +28,30 @@ void FlappyBirdApp::keyDown(ci::app::KeyEvent event) {
   switch (event.getCode()) {
     case ci::app::KeyEvent::KEY_SPACE:
       if (game_engine_.GetGameStatus() == 0) {
-        // start the game
-        game_engine_.SetGameStatus(1);
-        game_engine_.ResetBirdPosition();
-        game_engine_.MakeBirdFly();
+        game_engine_.StartGame();
       } else if (game_engine_.GetGameStatus() == 1) {
-        // flappy bird goes jummppppppp
         game_engine_.MakeBirdFly();
         game_engine_.ResetGravityMultiplier();
       }
       break;
     case ci::app::KeyEvent::KEY_RETURN:
       if (game_engine_.GetGameStatus() == 2) {
-        // go to starting screen
-        game_engine_.SetGameStatus(0);
-        std::cout << "Game status 0" << std::endl;
-        game_engine_.ClearObstacle();
-        game_engine_.ResetScore();
+        game_engine_.ResetGame();
+      }
+      break;
+    case ci::app::KeyEvent::KEY_1:
+      if (game_engine_.GetGameStatus() == 0) {
+        game_engine_.SetGameModeEasy();
+      }
+      break;
+    case ci::app::KeyEvent::KEY_2:
+      if (game_engine_.GetGameStatus() == 0) {
+        game_engine_.SetGameModeNormal();
+      }
+      break;
+    case ci::app::KeyEvent::KEY_3:
+      if (game_engine_.GetGameStatus() == 0) {
+        game_engine_.SetGameModeHard();
       }
       break;
   }

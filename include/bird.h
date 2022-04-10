@@ -34,8 +34,8 @@ public:
 private:
   ci::gl::Texture2dRef flappy_bird_;
 
-  cinder::vec2 bird_top_left_;
-  cinder::vec2 bird_bottom_right;
+  ci::vec2 bird_top_left_;
+  ci::vec2 bird_bottom_right;
 
   double gravity_multiplier_ = 1.0;
 };

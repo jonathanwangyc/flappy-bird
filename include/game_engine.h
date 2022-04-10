@@ -17,11 +17,19 @@ public:
   int GetScore();
   int GetGameStatus();
   void SetGameStatus(int status);
+  int GetGameMode();
+  void SetObstacleFrequency(int frequency);
+
+  void SetGameModeEasy();
+  void SetGameModeNormal();
+  void SetGameModeHard();
+  void StartGame();
+  void ResetGame();
 
   void MakeBirdFly();
-  void ClearObstacle();
-  void ResetScore();
-  void ResetBirdPosition();
+  void ClearObstacle(); // might actually don't need
+  void ResetScore(); // might actually don't need
+  void ResetBirdPosition(); // might actually don't need
   void ResetGravityMultiplier();
 
   const int kWindowSizeX;
@@ -29,7 +37,8 @@ public:
 
 private:
   int game_status_;
-  const int kObstacleFrequency = 180;
+  int game_mode_;
+  int obstacle_frequency_ = 180;
   int frame_count_;
   Bird bird_;
   std::vector<Obstacle> obstacles_;
