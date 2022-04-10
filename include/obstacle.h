@@ -25,11 +25,11 @@ private:
 
   int game_mode_;
   bool has_passed;
-  double moving_speed_ = 2.5;
+  double moving_speed_;
 
   ci::vec2 lid_dimension_ = ci::vec2(244 / 2, 113 / 2);
   double pipe_width_ = double(244) / 3;
-  double gap_width_ = 216 / 1.2;
+  double gap_width_;
 
   ci::gl::Texture2dRef obstacle_top_lid_;
   ci::gl::Texture2dRef obstacle_top_pipe_;

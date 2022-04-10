@@ -7,21 +7,15 @@ GameEngine::GameEngine(int window_size_x, int window_size_y) :
     bird_(Bird(kWindowSizeX, kWindowSizeY)) {
   game_status_ = 0;
   frame_count_ = 0;
-  highest_score_ = 0;
+  highest_score_ = {0, 0, 0, 0};
   score_ = 0;
 
   this->SetGameModeNormal();
-
-  obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY, game_mode_));
 }
 
 void GameEngine::Display() const {
-  for (Obstacle obstacle : obstacles_) {
-    obstacle.Draw();
-  }
-  bird_.Draw();
-  // TODO: improve bird flying/falling animation, different game mode easy/normal/hard press key to change mode
-
+  DisplayObjects();
+  // TODO: improve bird flying/falling animation
   switch (game_status_) {
     case 0:
       DisplayScore();
@@ -36,6 +30,13 @@ void GameEngine::Display() const {
   }
 }
 
+void GameEngine::DisplayObjects() const {
+  for (Obstacle obstacle : obstacles_) {
+    obstacle.Draw();
+  }
+  bird_.Draw();
+}
+
 void GameEngine::DisplayScore() const {
   ci::gl::drawStringCentered(std::to_string(score_),
                              glm::vec2(kWindowSizeX / 2, 0.12 * kWindowSizeY), ci::Color("white"),
@@ -46,6 +47,23 @@ void GameEngine::DisplayStartingScreen() const {
   ci::gl::drawStringCentered("Press \"Space\" to start...",
                              glm::vec2(kWindowSizeX / 2, 0.25 * kWindowSizeY), ci::Color("white"),
                              ci::Font("Georgia", 32));
+  ci::gl::drawStringCentered("Press 1, 2, 3 to change difficulty",
+                             glm::vec2(kWindowSizeX / 2, 0.30 * kWindowSizeY), ci::Color("white"),
+                             ci::Font("Georgia", 16));
+  switch(game_mode_) {
+    case 1:
+      ci::gl::drawString("Mode: EASY", glm::vec2(0.05 * kWindowSizeX, 0.05 * kWindowSizeY), ci::Color("white"),
+                         ci::Font("Georgia", 20));
+      break;
+    case 2:
+      ci::gl::drawString("Mode: NORMAL", glm::vec2(0.05 * kWindowSizeX, 0.05 * kWindowSizeY), ci::Color("white"),
+                         ci::Font("Georgia", 20));
+      break;
+    case 3:
+      ci::gl::drawString("Mode: HARD", glm::vec2(0.05 * kWindowSizeX, 0.05 * kWindowSizeY), ci::Color("white"),
+                         ci::Font("Georgia", 20));
+      break;
+  }
 }
 
 void GameEngine::DisplayEndingScreen() const {
@@ -54,7 +72,7 @@ void GameEngine::DisplayEndingScreen() const {
   ci::gl::drawStringCentered("Score: " + std::to_string(score_),
                              glm::vec2(kWindowSizeX / 2, 0.18 * kWindowSizeY), ci::Color("black"),
                              ci::Font("Arial Black", 32));
-  ci::gl::drawStringCentered("Best: " + std::to_string(highest_score_),
+  ci::gl::drawStringCentered("Best: " + std::to_string(highest_score_[game_mode_]),
                              glm::vec2(kWindowSizeX / 2, 0.24 * kWindowSizeY), ci::Color("black"),
                              ci::Font("Arial Black", 32));
   ci::gl::drawStringCentered("Press \"Return\"",
@@ -72,8 +90,8 @@ void GameEngine::AdvanceOneFrame() {
 
   if (bird_.HasFall() || bird_.HasCollide(obstacles_)) {
     this->SetGameStatus(2);
-    if (score_ > highest_score_) {
-      highest_score_ = score_;
+    if (score_ > highest_score_[game_mode_]) {
+      highest_score_[game_mode_] = score_;
     }
     std::cout << "Game Stopped!" << std::endl;
   } else {
@@ -109,26 +127,28 @@ int GameEngine::GetGameMode() {
   return game_mode_;
 }
 
-void GameEngine::SetObstacleFrequency(int frequency) {
-  obstacle_frequency_ = frequency;
-}
-
 void GameEngine::SetGameModeEasy() {
-  // TODO: displaying game mode options/ show current game mode, potentially keep track of highest score for
-  //  different game modes using vector, constructor set game mode normal/ remove original value for width/frequency/speed.
   obstacle_frequency_ = 200;
   game_mode_ = 1;
-
+  obstacles_.clear();
+  obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY, game_mode_));
+  std::cout << "easy mode called: " << obstacles_.size() <<std::endl;
 }
 
 void GameEngine::SetGameModeNormal() {
   obstacle_frequency_ = 180;
   game_mode_ = 2;
+  obstacles_.clear();
+  obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY, game_mode_));
+  std::cout << "normal mode called: " << obstacles_.size() <<std::endl;
 }
 
 void GameEngine::SetGameModeHard() {
   obstacle_frequency_ = 160;
   game_mode_ = 3;
+  obstacles_.clear();
+  obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY, game_mode_));
+  std::cout << "hard mode called: " << obstacles_.size() <<std::endl;
 }
 
 void GameEngine::StartGame() {
@@ -140,19 +160,18 @@ void GameEngine::StartGame() {
 void GameEngine::ResetGame() {
   this->SetGameStatus(0);
   obstacles_.clear();
+  frame_count_ = 0;
   score_ = 0;
+  bird_.SetGravityMultiplier(1.0);
 }
 
-void GameEngine::MakeBirdFly() {
+void GameEngine::ExecuteBirdAction() {
   bird_.Fly();
+  bird_.SetGravityMultiplier(1.0);
 }
 
 bool GameEngine::IsOutOfBound(Obstacle obstacle) {
   return obstacle.GetObstacleXPosition() < 0;
-}
-
-void GameEngine::ClearObstacle() {
-  obstacles_.clear();
 }
 
 void GameEngine::UpdateScore() {
@@ -164,18 +183,5 @@ void GameEngine::UpdateScore() {
   }
 }
 
-void GameEngine::ResetScore() {
-  score_ = 0;
-}
-
-void GameEngine::ResetBirdPosition() {
-  bird_.ResetPosition();
-}
-
-void GameEngine::ResetGravityMultiplier() {
-  bird_.SetGravityMultiplier(1.0);
-}
-
 
 }  // namespace flappybird
-

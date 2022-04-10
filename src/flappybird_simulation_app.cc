@@ -8,7 +8,6 @@ FlappyBirdApp::FlappyBirdApp() : kFlappyBird(ci::gl::Texture2d::create(loadImage
                                  game_engine_(GameEngine(kWindowSizeX, kWindowSizeY)) {
   ci::app::setWindowSize(kWindowSizeX, kWindowSizeY);
   background = ci::gl::Texture2d::create(loadImage(loadAsset("background.png")));
-
 }
 
 void FlappyBirdApp::draw() {
@@ -29,9 +28,9 @@ void FlappyBirdApp::keyDown(ci::app::KeyEvent event) {
     case ci::app::KeyEvent::KEY_SPACE:
       if (game_engine_.GetGameStatus() == 0) {
         game_engine_.StartGame();
+        std::cout << "current game mode: " << game_engine_.GetGameMode() <<std::endl;
       } else if (game_engine_.GetGameStatus() == 1) {
-        game_engine_.MakeBirdFly();
-        game_engine_.ResetGravityMultiplier();
+        game_engine_.ExecuteBirdAction();
       }
       break;
     case ci::app::KeyEvent::KEY_RETURN:

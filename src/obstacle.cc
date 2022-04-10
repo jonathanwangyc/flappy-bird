@@ -103,5 +103,4 @@ void Obstacle::UpdateHasPassed() {
   has_passed = !has_passed;
 }
 
-
 }  // namespace flappybird
