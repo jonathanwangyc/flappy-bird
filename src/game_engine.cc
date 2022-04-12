@@ -15,7 +15,6 @@ GameEngine::GameEngine(int window_size_x, int window_size_y) :
 
 void GameEngine::Display() const {
   DisplayObjects();
-  // TODO: improve bird flying/falling animation
   switch (game_status_) {
     case 0:
       DisplayScore();
@@ -93,7 +92,6 @@ void GameEngine::AdvanceOneFrame() {
     if (score_ > highest_score_[game_mode_]) {
       highest_score_[game_mode_] = score_;
     }
-    std::cout << "Game Stopped!" << std::endl;
   } else {
     for (Obstacle& obstacle : obstacles_) {
       obstacle.AdvanceOneFrame();
@@ -132,7 +130,6 @@ void GameEngine::SetGameModeEasy() {
   game_mode_ = 1;
   obstacles_.clear();
   obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY, game_mode_));
-  std::cout << "easy mode called: " << obstacles_.size() <<std::endl;
 }
 
 void GameEngine::SetGameModeNormal() {
@@ -140,7 +137,6 @@ void GameEngine::SetGameModeNormal() {
   game_mode_ = 2;
   obstacles_.clear();
   obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY, game_mode_));
-  std::cout << "normal mode called: " << obstacles_.size() <<std::endl;
 }
 
 void GameEngine::SetGameModeHard() {
@@ -148,7 +144,6 @@ void GameEngine::SetGameModeHard() {
   game_mode_ = 3;
   obstacles_.clear();
   obstacles_.push_back(Obstacle(kWindowSizeX, kWindowSizeY, game_mode_));
-  std::cout << "hard mode called: " << obstacles_.size() <<std::endl;
 }
 
 void GameEngine::StartGame() {
@@ -182,6 +177,5 @@ void GameEngine::UpdateScore() {
     }
   }
 }
-
 
 }  // namespace flappybird

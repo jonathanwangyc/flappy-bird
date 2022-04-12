@@ -4,8 +4,7 @@ using cinder::vec2;
 
 namespace flappybird {
 
-FlappyBirdApp::FlappyBirdApp() : kFlappyBird(ci::gl::Texture2d::create(loadImage(loadAsset("flappy_bird.png")))),
-                                 game_engine_(GameEngine(kWindowSizeX, kWindowSizeY)) {
+FlappyBirdApp::FlappyBirdApp() : game_engine_(GameEngine(kWindowSizeX, kWindowSizeY)) {
   ci::app::setWindowSize(kWindowSizeX, kWindowSizeY);
   background = ci::gl::Texture2d::create(loadImage(loadAsset("background.png")));
 }
@@ -57,4 +56,3 @@ void FlappyBirdApp::keyDown(ci::app::KeyEvent event) {
 }
 
 }  // namespace flappybird
-
