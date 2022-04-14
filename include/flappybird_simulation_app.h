@@ -30,8 +30,8 @@ public:
    */
   void keyDown(ci::app::KeyEvent event) override;
 
-  const int kWindowSizeX = 1250; /// The pop-up window width
-  const int kWindowSizeY = 725; /// The pop-up window height
+  const int kWindowSizeX = 1250; /// the pop-up window width
+  const int kWindowSizeY = 725; /// the pop-up window height
 
 private:
   GameEngine game_engine_;
