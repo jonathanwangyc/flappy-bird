@@ -7,7 +7,12 @@ namespace flappybird {
 Bird::Bird(int window_size_x, int window_size_y) : kWindowSizeX(window_size_x), kWindowSizeY(window_size_y) {
   flappy_bird_ = ci::gl::Texture2d::create(loadImage(ci::app::loadAsset("flappy_bird.png")));
   gravity_multiplier_ = 1.0;
+  bird_top_left_ = vec2(kWindowSizeX/2 - kBirdWidth/2, kWindowSizeY/2 - kBirdHeight/2);
+  bird_bottom_right = vec2(kWindowSizeX/2 + kBirdWidth/2, kWindowSizeY/2 + kBirdHeight/2);
+}
 
+Bird::Bird(int window_size_x, int window_size_y, bool is_test) : kWindowSizeX(window_size_x), kWindowSizeY(window_size_y) {
+  gravity_multiplier_ = 1.0;
   bird_top_left_ = vec2(kWindowSizeX/2 - kBirdWidth/2, kWindowSizeY/2 - kBirdHeight/2);
   bird_bottom_right = vec2(kWindowSizeX/2 + kBirdWidth/2, kWindowSizeY/2 + kBirdHeight/2);
 }
@@ -47,12 +52,24 @@ void Bird::ResetPosition() {
   bird_bottom_right = vec2(kWindowSizeX/2 + kBirdWidth/2, kWindowSizeY/2 + kBirdHeight/2);
 }
 
-double Bird::GetBirdXPosition() {
+double Bird::GetBirdXPosition() const {
   return bird_top_left_.x;
 }
 
 void Bird::SetGravityMultiplier(double multiplier) {
   gravity_multiplier_ = multiplier;
+}
+
+double Bird::GetGravityMultiplier() const {
+  return gravity_multiplier_;
+}
+
+ci::vec2 Bird::GetBirdTopLeft() const {
+  return bird_top_left_;
+}
+
+ci::vec2 Bird::GetBirdBottomRight() const {
+  return bird_bottom_right;
 }
 
 }  // namespace flappybird

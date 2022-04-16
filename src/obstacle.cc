@@ -19,6 +19,15 @@ Obstacle::Obstacle(int window_size_x, int window_size_y, int game_mode) :
   InitializeObstaclePosition();
 }
 
+Obstacle::Obstacle(int window_size_x, int window_size_y, int game_mode, ci::vec2 obstacle_top_left,
+                   ci::vec2 obstacle_bottom_right) : kWindowSizeX(window_size_x), kWindowSizeY(window_size_y) {
+  top_lid_top_left_ = obstacle_top_left;
+  top_lid_bottom_right = obstacle_bottom_right;
+  game_mode_ = game_mode;
+  has_passed = false;
+  InitializeGameMode();
+}
+
 void Obstacle::Draw() const {
   ci::gl::draw(obstacle_top_lid_, ci::Rectf(top_lid_top_left_, top_lid_bottom_right));
   ci::gl::draw(obstacle_top_pipe_, ci::Rectf(top_pipe_top_left_, top_pipe_bottom_right));
@@ -83,7 +92,7 @@ void Obstacle::InitializeObstaclePosition() {
   bottom_pipe_bottom_right = vec2(kWindowSizeX + pipe_width_  + (lid_dimension_.x - pipe_width_) / 2, kWindowSizeY);
 }
 
-double Obstacle::GetObstacleXPosition() {
+double Obstacle::GetObstacleXPosition() const {
   return top_lid_bottom_right.x;
 }
 
@@ -95,12 +104,32 @@ ci::Rectf Obstacle::GetBottomObstacleHitBox() const {
   return ci::Rectf(bottom_lid_top_left_, vec2(bottom_lid_bottom_right.x, kWindowSizeY));;
 }
 
-bool Obstacle::HasPassed() {
+bool Obstacle::HasPassed() const {
   return has_passed;
 }
 
 void Obstacle::UpdateHasPassed() {
   has_passed = !has_passed;
+}
+
+int Obstacle::GetGameMode() const {
+  return game_mode_;
+}
+
+double Obstacle::GetMovingSpeed() const {
+  return moving_speed_;
+}
+
+double Obstacle::GetGapWidth() const {
+  return gap_width_;
+}
+
+ci::vec2 Obstacle::GetObstacleTopLeft() const {
+  return top_lid_top_left_;
+}
+
+ci::vec2 Obstacle::GetObstacleBottomRight() const {
+  return top_lid_bottom_right;
 }
 
 }  // namespace flappybird

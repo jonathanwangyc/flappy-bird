@@ -9,15 +9,25 @@ namespace flappybird {
 class Obstacle {
 public:
   Obstacle(int window_size_x, int window_size_y, int game_mode);
+  Obstacle(int window_size_x, int window_size_y, int game_mode, ci::vec2 obstacle_top_left, ci::vec2 obstacle_bottom_left);
   void Draw() const;
   void AdvanceOneFrame();
 
-  double GetObstacleXPosition();
+  double GenerateRandomDouble(const double& min, const double& max);
+
+  double GetObstacleXPosition() const;
   ci::Rectf GetTopObstacleHitBox() const;
   ci::Rectf GetBottomObstacleHitBox() const;
 
-  bool HasPassed();
+  bool HasPassed() const;
   void UpdateHasPassed();
+
+  int GetGameMode() const;
+  double GetMovingSpeed() const;
+  double GetGapWidth() const;
+
+  ci::vec2 GetObstacleTopLeft() const;
+  ci::vec2 GetObstacleBottomRight() const;
 
 private:
   int kWindowSizeX;
@@ -48,7 +58,6 @@ private:
   ci::vec2 bottom_pipe_top_left_;
   ci::vec2 bottom_pipe_bottom_right;
 
-  double GenerateRandomDouble(const double& min, const double& max);
   void InitializeGameMode();
   void InitializeObstaclePosition();
 };

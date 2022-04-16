@@ -10,6 +10,7 @@ namespace flappybird {
 class Bird {
 public:
   Bird(int window_size_x, int window_size_y);
+  Bird(int window_size_x, int window_size_y, bool is_test);
   void Draw() const;
   void AdvanceOneFrame();
   void Fly();
@@ -18,9 +19,13 @@ public:
   bool HasCollide(std::vector<Obstacle> obstacles) const;
 
   void ResetPosition();
-  double GetBirdXPosition();
+  double GetBirdXPosition() const;
 
   void SetGravityMultiplier(double multiplier);
+
+  double GetGravityMultiplier() const;
+  ci::vec2 GetBirdTopLeft() const;
+  ci::vec2 GetBirdBottomRight() const;
 
   const int kWindowSizeX;
   const int kWindowSizeY;
