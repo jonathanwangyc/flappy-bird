@@ -8,6 +8,7 @@ namespace flappybird {
 class GameEngine {
 public:
   GameEngine(int window_size_x, int window_size_y);
+  GameEngine(int window_size_x, int window_size_y, bool is_test);
   void Display() const;
   void DisplayObjects() const;
   void DisplayScore() const;
@@ -15,10 +16,10 @@ public:
   void DisplayEndingScreen() const;
   void AdvanceOneFrame();
 
-  int GetScore();
-  int GetGameStatus();
+  int GetScore() const;
+  int GetGameStatus() const;
   void SetGameStatus(int status);
-  int GetGameMode();
+  int GetGameMode() const;
 
   void SetGameModeEasy();
   void SetGameModeNormal();
@@ -27,6 +28,12 @@ public:
   void ResetGame();
 
   void ExecuteBirdAction();
+  void UpdateScore();
+
+  Bird GetBird() const;
+  std::vector<Obstacle> GetObstacles() const;
+  void SetObstacles(std::vector<Obstacle> obstacles);
+  std::vector<int> GetHighestScore() const;
 
   const int kWindowSizeX;
   const int kWindowSizeY;
@@ -43,7 +50,6 @@ private:
   int score_;
 
   bool IsOutOfBound(Obstacle obstacle);
-  void UpdateScore();
 };
 
 }  // namespace flappybird

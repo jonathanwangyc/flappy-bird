@@ -13,6 +13,17 @@ GameEngine::GameEngine(int window_size_x, int window_size_y) :
   this->SetGameModeNormal();
 }
 
+GameEngine::GameEngine(int window_size_x, int window_size_y, bool is_test) :
+    kWindowSizeX(window_size_x), kWindowSizeY(window_size_y), bird_(Bird(kWindowSizeX, kWindowSizeY, true)) {
+  game_status_ = 0;
+  frame_count_ = 0;
+  highest_score_ = {0, 0, 0, 0};
+  score_ = 0;
+
+  obstacle_frequency_ = 180;
+  game_mode_ = 2;
+}
+
 void GameEngine::Display() const {
   DisplayObjects();
   switch (game_status_) {
@@ -109,11 +120,11 @@ void GameEngine::AdvanceOneFrame() {
   }
 }
 
-int GameEngine::GetScore() {
+int GameEngine::GetScore() const {
   return score_;
 }
 
-int GameEngine::GetGameStatus() {
+int GameEngine::GetGameStatus() const {
   return game_status_;
 }
 
@@ -121,7 +132,7 @@ void GameEngine::SetGameStatus(int status) {
   game_status_ = status;
 }
 
-int GameEngine::GetGameMode() {
+int GameEngine::GetGameMode() const {
   return game_mode_;
 }
 
@@ -176,6 +187,22 @@ void GameEngine::UpdateScore() {
       obstacle.UpdateHasPassed();
     }
   }
+}
+
+Bird GameEngine::GetBird() const {
+  return bird_;
+}
+
+std::vector<Obstacle> GameEngine::GetObstacles() const {
+  return obstacles_;
+}
+
+void GameEngine::SetObstacles(std::vector<Obstacle> obstacles) {
+  obstacles_ = obstacles;
+}
+
+std::vector<int> GameEngine::GetHighestScore() const {
+  return highest_score_;
 }
 
 }  // namespace flappybird
