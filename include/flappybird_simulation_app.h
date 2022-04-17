@@ -15,7 +15,7 @@ public:
   FlappyBirdApp();
 
   /**
-   * Draw all objects onto the pop-up window.
+   * Draw all the objects onto the pop-up window.
    */
   void draw() override;
 
@@ -34,8 +34,8 @@ public:
   const int kWindowSizeY = 725; /// the pop-up window height
 
 private:
-  GameEngine game_engine_;
-  ci::gl::Texture2dRef background;
+  GameEngine game_engine_; /// a instance of GameEngine
+  ci::gl::Texture2dRef background; /// the background image of the game
 };
 
 }  // namespace flappybird
