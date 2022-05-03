@@ -15,7 +15,7 @@ public:
   FlappyBirdApp();
 
   /**
-   * Draw all objects onto the pop-up window.
+   * Draw all the objects onto the pop-up window.
    */
   void draw() override;
 
@@ -30,12 +30,12 @@ public:
    */
   void keyDown(ci::app::KeyEvent event) override;
 
-  const int kWindowSizeX = 1250; /// The pop-up window width
-  const int kWindowSizeY = 725; /// The pop-up window height
+  const int kWindowSizeX = 1250; /// the pop-up window width
+  const int kWindowSizeY = 725; /// the pop-up window height
 
 private:
-  GameEngine game_engine_;
-  ci::gl::Texture2dRef background;
+  GameEngine game_engine_; /// a instance of GameEngine
+  ci::gl::Texture2dRef background; /// the background image of the game
 };
 
 }  // namespace flappybird
