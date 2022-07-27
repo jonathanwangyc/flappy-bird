@@ -17,3 +17,13 @@ the game is to stay alive as long as possible, with the score updating automatic
 * Press **Space Bar** to start the game/ make the bird fly
 * Press **Return** to play a new instance
 * Press **1, 2, 3** to select different difficulties 
+
+## Demonstration
+
+Change difficulty
+
+![](demo1.gif)
+
+Game instance
+
+![](demo2.gif)
